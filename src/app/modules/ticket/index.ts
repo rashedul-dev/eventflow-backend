@@ -1,0 +1,5 @@
+export { TicketController } from "./ticket.controller"
+export { TicketService } from "./ticket.service"
+export { default as ticketRoutes } from "./ticket.routes"
+export * from "./ticket.constant"
+export * from "./ticket.interface"
