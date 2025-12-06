@@ -1,0 +1,329 @@
+// ============================================================================
+// INTEGRATION GUIDE & USAGE
+// ============================================================================
+
+/*
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                  🔐 ADMIN MANAGEMENT SYSTEM - SETUP GUIDE                 ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📦 STEP 1: Add to app.ts
+-------------------------
+import adminRoutes from "./app/modules/admin/admin.routes"
+
+app.use("/api/v1/admin", adminRoutes)
+
+
+🔑 STEP 2: Role-Based Access
+------------------------------
+All admin routes require ADMIN or SUPER_ADMIN role.
+Routes automatically enforce this via auth middleware.
+
+
+📊 ADMIN FEATURES
+------------------
+
+1. EVENT VERIFICATION DASHBOARD
+   ✅ View all pending events
+   ✅ Approve/Reject events with reasons
+   ✅ View verification statistics
+   ✅ Audit trail of all verifications
+
+2. USER MANAGEMENT
+   ✅ Search/filter all users
+   ✅ Suspend/Activate users
+   ✅ Verify email/phone
+   ✅ Update user roles
+   ✅ View user statistics
+   ✅ Audit trail of all actions
+
+3. PLATFORM ANALYTICS
+   ✅ Total users/events/revenue
+   ✅ Active/pending events count
+   ✅ User growth over time
+   ✅ Top events by revenue
+   ✅ Top organizers by revenue
+   ✅ Custom date ranges
+
+4. COMMISSION REPORTS
+   ✅ Total revenue/commission/payout
+   ✅ Commission by event
+   ✅ Commission by organizer
+   ✅ Custom date ranges
+   ✅ Export-ready data
+
+
+🌐 API ENDPOINTS
+-----------------
+
+EVENT VERIFICATION:
+GET    /api/v1/admin/events/pending                  # Get pending events
+POST   /api/v1/admin/events/:id/verify               # Approve/Reject
+GET    /api/v1/admin/events/verification-stats       # Statistics
+
+USER MANAGEMENT:
+GET    /api/v1/admin/users                           # Get all users
+POST   /api/v1/admin/users/:id/manage                # Manage user
+GET    /api/v1/admin/users/statistics                # User stats
+
+ANALYTICS:
+GET    /api/v1/admin/analytics                       # Platform analytics
+  ?period=week|month|quarter|year|custom
+  &dateFrom=2024-01-01
+  &dateTo=2024-12-31
+
+COMMISSION REPORTS:
+GET    /api/v1/admin/reports/commission              # Commission report
+  ?dateFrom=2024-01-01
+  &dateTo=2024-12-31
+  &organizerId=user_123
+  &eventId=evt_456
+
+
+💻 USAGE EXAMPLES
+------------------
+
+1. APPROVE EVENT
+----------------
+POST /api/v1/admin/events/:id/verify
+{
+  "status": "APPROVED"
+}
+
+2. REJECT EVENT
+---------------
+POST /api/v1/admin/events/:id/verify
+{
+  "status": "REJECTED",
+  "rejectionReason": "Event does not meet community guidelines. Please review and resubmit."
+}
+
+3. SUSPEND USER
+---------------
+POST /api/v1/admin/users/:id/manage
+{
+  "action": "suspend",
+  "reason": "Violation of terms of service - spam events"
+}
+
+4. VERIFY USER EMAIL
+--------------------
+POST /api/v1/admin/users/:id/manage
+{
+  "action": "verify_email"
+}
+
+5. UPDATE USER ROLE
+-------------------
+POST /api/v1/admin/users/:id/manage
+{
+  "action": "update_role",
+  "newRole": "ORGANIZER"
+}
+
+6. GET PLATFORM ANALYTICS (Last Month)
+---------------------------------------
+GET /api/v1/admin/analytics?period=month
+
+Response:
+{
+  "overview": {
+    "totalUsers": 1250,
+    "totalEvents": 450,
+    "totalRevenue": 125000.00,
+    "totalCommission": 6250.00,
+    "activeEvents": 85,
+    "pendingEvents": 12
+  },
+  "topEvents": [...],
+  "topOrganizers": [...],
+  "userGrowth": [...]
+}
+
+7. GET COMMISSION REPORT (Q1 2024)
+----------------------------------
+GET /api/v1/admin/reports/commission?dateFrom=2024-01-01&dateTo=2024-03-31
+
+Response:
+{
+  "summary": {
+    "totalRevenue": 450000.00,
+    "totalCommission": 22500.00,
+    "totalPayout": 427500.00,
+    "transactionCount": 1250
+  },
+  "byEvent": [...],
+  "byOrganizer": [...]
+}
+
+
+🔒 SECURITY FEATURES
+---------------------
+✅ Role-based access control (ADMIN/SUPER_ADMIN only)
+✅ Audit trail for all admin actions
+✅ Cannot manage SUPER_ADMIN users
+✅ Revoke refresh tokens on user suspension
+✅ Detailed logging of all operations
+
+
+📋 PERMISSIONS
+---------------
+SUPER_ADMIN: All permissions
+ADMIN: Limited permissions (cannot delete, adjust commissions)
+
+Event Management:
+- approve_events
+- reject_events
+- delete_events (SUPER_ADMIN only)
+
+User Management:
+- suspend_users
+- verify_users
+- delete_users (SUPER_ADMIN only)
+- update_user_roles
+
+Financial:
+- view_financials
+- process_refunds
+- view_commission_reports
+- adjust_commissions (SUPER_ADMIN only)
+
+Platform:
+- view_analytics
+- manage_settings (SUPER_ADMIN only)
+- view_audit_logs
+
+
+📊 ANALYTICS PERIODS
+---------------------
+- today: Last 24 hours
+- week: Last 7 days
+- month: Last 30 days
+- quarter: Last 90 days
+- year: Last 365 days
+- custom: Specify dateFrom and dateTo
+
+
+🎨 FRONTEND INTEGRATION EXAMPLE
+---------------------------------
+// Approve Event
+const approveEvent = async (eventId: string) => {
+  const response = await fetch(`/api/v1/admin/events/${eventId}/verify`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${adminToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ status: 'APPROVED' })
+  })
+  return response.json()
+}
+
+// Suspend User
+const suspendUser = async (userId: string, reason: string) => {
+  const response = await fetch(`/api/v1/admin/users/${userId}/manage`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${adminToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      action: 'suspend',
+      reason
+    })
+  })
+  return response.json()
+}
+
+// Get Analytics
+const getAnalytics = async (period: string) => {
+  const response = await fetch(`/api/v1/admin/analytics?period=${period}`, {
+    headers: {
+      'Authorization': `Bearer ${adminToken}`
+    }
+  })
+  return response.json()
+}
+
+
+🔍 AUDIT TRAIL
+---------------
+All admin actions are logged in the audit_logs table:
+- userId: Admin who performed the action
+- action: Type of action (APPROVE_EVENT, SUSPEND_USER, etc.)
+- entity: Entity type (Event, User, etc.)
+- entityId: ID of affected entity
+- oldValues: Previous state
+- newValues: New state
+- timestamp: When action occurred
+
+Query audit logs:
+SELECT * FROM audit_logs
+WHERE entity = 'Event'
+AND action = 'APPROVE_EVENT'
+ORDER BY created_at DESC;
+
+
+📈 DASHBOARD METRICS
+---------------------
+Key metrics available for admin dashboard:
+
+User Metrics:
+- Total users
+- Active users
+- Verified users
+- Suspended users
+- User growth trend
+
+Event Metrics:
+- Total events
+- Active events
+- Pending approval
+- Approval rate
+- Rejection rate
+
+Financial Metrics:
+- Total revenue
+- Platform commission
+- Organizer payouts
+- Average commission rate
+
+Performance Metrics:
+- Top performing events
+- Top organizers
+- Revenue by period
+- Ticket sales trends
+
+
+🚨 IMPORTANT NOTES
+-------------------
+1. SUPER_ADMIN users cannot be suspended or deleted
+2. User suspension automatically revokes all active sessions
+3. Event rejection requires a detailed reason
+4. All actions are logged in audit_logs table
+5. Commission reports can be filtered by date/organizer/event
+6. Analytics data is cached for performance (5 min TTL)
+
+
+✅ TESTING CHECKLIST
+---------------------
+□ Admin can view pending events
+□ Admin can approve events
+□ Admin can reject events with reason
+□ Admin can view all users
+□ Admin can suspend users
+□ Admin can verify user emails
+□ Admin can update user roles
+□ Cannot manage SUPER_ADMIN users
+□ Suspended users are logged out
+□ Audit trail is created
+□ Analytics returns correct data
+□ Commission reports are accurate
+□ Date range filtering works
+□ Unauthorized access is blocked
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║              🎉 ADMIN MANAGEMENT SYSTEM READY TO USE!                     ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+*/
