@@ -2,7 +2,7 @@
 // FILE: backend/prisma/seed.ts - Database Seed File
 // ============================================================================
 
-import { PrismaClient, UserRole, EventStatus, TicketStatus } from "@prisma/client";
+import { PrismaClient, UserRole, EventStatus } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
