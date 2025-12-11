@@ -19,7 +19,7 @@ export interface DecodedToken extends JwtPayload {
 export const createToken = (
   payload: TokenPayload,
   secret: Secret = config.jwt.secret,
-  expiresIn: SignOptions['expiresIn'] = config.jwt.expiresIn as SignOptions['expiresIn']
+  expiresIn: SignOptions["expiresIn"] = config.jwt.expiresIn as SignOptions["expiresIn"]
 ): string => {
   return jwt.sign(payload, secret, {
     expiresIn,
@@ -33,7 +33,7 @@ export const createToken = (
 export const createRefreshToken = (
   payload: TokenPayload,
   secret: Secret = config.jwt.secret,
-  expiresIn: string | number = config.jwt.refreshExpiresIn
+  expiresIn: SignOptions["refreshExpiresIn"] = config.jwt.refreshExpiresIn as SignOptions["refreshExpiresIn"]
 ): string => {
   return jwt.sign(payload, secret, {
     expiresIn,
