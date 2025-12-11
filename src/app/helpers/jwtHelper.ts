@@ -1,4 +1,4 @@
-import jwt, { type Secret, type JwtPayload, type SignOptions } from "jsonwebtoken";
+import jwt, { type Secret, type JwtPayload } from "jsonwebtoken";
 import { config } from "../../config";
 
 export interface TokenPayload {
@@ -21,15 +21,10 @@ export const createToken = (
   secret: Secret = config.jwt.secret,
   expiresIn: string | number = config.jwt.expiresIn
 ): string => {
-  const options: SignOptions = {
+  return jwt.sign(payload, secret, {
+    expiresIn,
     algorithm: "HS256",
-  };
-
-  if (expiresIn) {
-    options.expiresIn = expiresIn;
-  }
-
-  return jwt.sign(payload, secret, options);
+  });
 };
 
 /**
@@ -40,15 +35,10 @@ export const createRefreshToken = (
   secret: Secret = config.jwt.secret,
   expiresIn: string | number = config.jwt.refreshExpiresIn
 ): string => {
-  const options: SignOptions = {
+  return jwt.sign(payload, secret, {
+    expiresIn,
     algorithm: "HS256",
-  };
-
-  if (expiresIn) {
-    options.expiresIn = expiresIn;
-  }
-
-  return jwt.sign(payload, secret, options);
+  });
 };
 
 /**
