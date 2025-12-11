@@ -4,6 +4,5 @@ set -o errexit
 
 npm install
 npm run build
-npx prisma generate
-npx prisma migrate deploy
-
+npm run db:generate
+npm run db:migrate:prod
