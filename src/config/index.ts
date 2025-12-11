@@ -94,8 +94,8 @@ export const config = {
   // JWT
   jwt: {
     secret: env.JWT_SECRET,
-    expiresIn: env.JWT_EXPIRES_IN as string | number,
-    refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN as string | number,
+    expiresIn: env.JWT_EXPIRES_IN,
+    refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN,
   },
 
   // Stripe
