@@ -35,7 +35,7 @@ export const createToken = (
 export const createRefreshToken = (
   payload: TokenPayload,
   secret: Secret = config.jwt.secret,
-  expiresIn: string = config.jwt.refreshExpiresIn
+  expiresIn: string | number = config.jwt.refreshExpiresIn
 ): string => {
   const options: SignOptions = {
     expiresIn,
