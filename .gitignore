@@ -29,3 +29,7 @@ coverage/
 
 # Prisma
 prisma/migrations/.lock
+
+uploads/*
+!uploads/.gitkeep
+*.log
