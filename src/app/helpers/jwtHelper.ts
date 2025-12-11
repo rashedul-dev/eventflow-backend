@@ -22,9 +22,12 @@ export const createToken = (
   expiresIn: string | number = config.jwt.expiresIn
 ): string => {
   const options: SignOptions = {
-    expiresIn: expiresIn as string | number,
     algorithm: "HS256",
   };
+
+  if (expiresIn) {
+    options.expiresIn = expiresIn;
+  }
 
   return jwt.sign(payload, secret, options);
 };
@@ -38,9 +41,12 @@ export const createRefreshToken = (
   expiresIn: string | number = config.jwt.refreshExpiresIn
 ): string => {
   const options: SignOptions = {
-    expiresIn: expiresIn as string | number,
     algorithm: "HS256",
   };
+
+  if (expiresIn) {
+    options.expiresIn = expiresIn;
+  }
 
   return jwt.sign(payload, secret, options);
 };
