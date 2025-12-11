@@ -1,4 +1,4 @@
-import jwt, { type Secret, type JwtPayload } from "jsonwebtoken";
+import jwt, { type Secret, type JwtPayload, SignOptions } from "jsonwebtoken";
 import { config } from "../../config";
 
 export interface TokenPayload {
@@ -19,10 +19,10 @@ export interface DecodedToken extends JwtPayload {
 export const createToken = (
   payload: TokenPayload,
   secret: Secret = config.jwt.secret,
-  expiresIn: string | number = config.jwt.expiresIn
+  expiresIn: SignOptions['expiresIn'] = config.jwt.expiresIn as SignOptions['expiresIn']
 ): string => {
   return jwt.sign(payload, secret, {
-    expiresIn: expiresIn as string,
+    expiresIn,
     algorithm: "HS256",
   });
 };
@@ -36,7 +36,7 @@ export const createRefreshToken = (
   expiresIn: string | number = config.jwt.refreshExpiresIn
 ): string => {
   return jwt.sign(payload, secret, {
-    expiresIn: expiresIn as string,
+    expiresIn,
     algorithm: "HS256",
   });
 };
