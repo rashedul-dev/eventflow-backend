@@ -2,12 +2,11 @@
 // FILE: backend/src/app/modules/payment/payment.payout.ts
 // ============================================================================
 
-import Stripe from "stripe";
 import { getStripeClient } from "../../../shared/stripe";
 import prisma from "../../../shared/prisma";
 import { logger } from "../../../utils/logger";
 import { PAYOUT_SCHEDULE } from "./payment.constant";
-import { calculatePayoutDate, toStripeAmount } from "./payment.utils";
+import { calculatePayoutDate } from "./payment.utils";
 
 const stripe = getStripeClient();
 
@@ -174,7 +173,7 @@ const processOrganizerPayout = async (
   organizerId: string,
   data: { organizer: any; events: Map<string, { event: any; amount: number; paymentIds: string[] }> }
 ): Promise<void> => {
-  const { organizer, events } = data;
+  const { events } = data;
 
   // Calculate total payout across all events
   let totalAmount = 0;

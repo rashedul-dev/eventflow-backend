@@ -2,7 +2,7 @@
 // FILE: backend/src/app/modules/admin/admin.interface.ts
 // ============================================================================
 
-import type { EventStatus, UserRole } from "@prisma/client";
+import type { UserRole } from "@prisma/client";
 
 export interface IEventVerification {
   status: "APPROVED" | "REJECTED";

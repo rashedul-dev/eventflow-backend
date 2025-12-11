@@ -3,7 +3,6 @@ import multer from "multer"
 import fs from "fs"
 import path from "path"
 import { config } from "../../config"
-import type { Express } from "express"
 
 // Configure Cloudinary
 cloudinary.config({
