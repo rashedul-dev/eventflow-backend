@@ -94,8 +94,8 @@ export const config = {
   // JWT
   jwt: {
     secret: env.JWT_SECRET,
-    expiresIn: env.JWT_EXPIRES_IN,
-    refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN,
+    expiresIn: env.JWT_EXPIRES_IN as string | number,
+    refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN as string | number,
   },
 
   // Stripe
@@ -135,6 +135,6 @@ export const config = {
     apiKey: env.CLOUDINARY_API_KEY,
     apiSecret: env.CLOUDINARY_API_SECRET,
   },
-} as const;
+};
 
 export type Config = typeof config;
