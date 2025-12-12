@@ -54,6 +54,7 @@ const getPendingEvents = async (paginationOptions: IPaginationOptions) => {
             name: true,
             price: true,
             quantity: true,
+            quantitySold: true,
           },
         },
         _count: {
