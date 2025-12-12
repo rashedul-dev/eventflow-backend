@@ -15,7 +15,7 @@ import {
   calculateTicketPrice,
 } from "./ticket.utils";
 import { logger } from "../../../utils/logger";
-import { AppError } from "@/utils/app-error";
+import { AppError } from "../../../utils/app-error";
 
 // Purchase tickets
 const purchaseTickets = async (userId: string, payload: IPurchaseTicket) => {

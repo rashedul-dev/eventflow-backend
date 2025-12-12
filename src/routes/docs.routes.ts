@@ -2,7 +2,7 @@
 // FILE: backend/src/routes/docs.routes.ts - API Documentation
 // ============================================================================
 
-import { swaggerSpec } from "@/config/swaggerDocs";
+import { swaggerSpec } from "../config/swaggerDocs";
 import { Router, type Request, type Response } from "express";
 import swaggerUi from "swagger-ui-express";
 

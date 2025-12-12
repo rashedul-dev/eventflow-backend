@@ -11,7 +11,7 @@ import { AdminService } from "./admin.service";
 import { adminFilterableFields } from "./admin.constant";
 import { paginationFields } from "../../helpers/paginationHelper";
 import { IAnalyticsQuery, ICommissionReport } from "./admin.interface";
-import { cleanQuery, VALID_PERIODS, ValidPeriod } from "@/utils/queryCleaner";
+import { cleanQuery, VALID_PERIODS, ValidPeriod } from "../../../utils/queryCleaner";
 
 // ============================================================================
 // EVENT VERIFICATION CONTROLLERS
